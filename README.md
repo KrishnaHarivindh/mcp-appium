@@ -1,5 +1,10 @@
 # MCP Appium Server
 
+![CI](https://github.com/KrishnaHarivindh/mcp-appium/actions/workflows/node-ci.yml/badge.svg)
+![License](https://img.shields.io/github/license/KrishnaHarivindh/mcp-appium)
+![Last Commit](https://img.shields.io/github/last-commit/KrishnaHarivindh/mcp-appium)
+![Language](https://img.shields.io/github/languages/top/KrishnaHarivindh/mcp-appium)
+
 Model Context Protocol server for mobile application automation with Appium.
 
 ## Overview
