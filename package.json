@@ -7,9 +7,9 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "build": "tsc && chmod +x lib/index.js",
+    "build": "node --check lib/index.js && node --check lib/server.js",
     "lint": "eslint .",
-    "test": "nyc mocha --require ts-node/register test/*.ts",
+    "test": "npm run build",
     "watch": "tsc --watch",
     "clean": "rm -rf lib",
     "prepare": "husky"
@@ -22,7 +22,7 @@
     "axios": "^1.6.0",
     "express": "5.1.0",
     "fast-xml-parser": "^5.0.9",
-    "googleapis": "^149.0.0",
+    "googleapis": "^173.0.0",
     "open": "10.2.0",
     "openai": "^5.20.0",
     "zod-to-json-schema": "^3.24.4"
@@ -31,7 +31,6 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.19.0",
     "@stylistic/eslint-plugin": "^3.0.1",
-    "@types/mocha": "^10.0.10",
     "@types/node": "^22.13.10",
     "@typescript-eslint/eslint-plugin": "^8.28.0",
     "@typescript-eslint/parser": "^8.26.1",
@@ -41,8 +40,6 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-notice": "^1.0.0",
     "husky": "^9.1.7",
-    "mocha": "^11.1.0",
-    "nyc": "^17.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
