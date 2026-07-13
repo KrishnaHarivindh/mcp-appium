@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI-Driven QA Automation MCP Demo</title>
+  <style>
+    :root { color-scheme: light; font-family: Inter, Segoe UI, Arial, sans-serif; color: #18202b; background: #f5f7fb; }
+    body { margin: 0; }
+    main { max-width: 1120px; margin: 0 auto; padding: 32px 20px 48px; }
+    h1 { margin: 0 0 8px; font-size: clamp(30px, 5vw, 52px); letter-spacing: 0; }
+    h2 { margin: 0 0 12px; font-size: 20px; }
+    p { line-height: 1.6; color: #475569; }
+    .top { display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: start; margin-bottom: 24px; }
+    .panel, .step { background: #fff; border: 1px solid #dbe3ef; border-radius: 8px; box-shadow: 0 12px 32px rgba(15,23,42,.06); }
+    .panel { padding: 22px; }
+    .controls { display: grid; gap: 14px; }
+    label { display: grid; gap: 6px; font-weight: 700; font-size: 14px; }
+    select, textarea, input { border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; font: inherit; background: #fff; }
+    textarea { min-height: 110px; resize: vertical; }
+    button { border: 0; border-radius: 6px; background: #0f766e; color: white; padding: 11px 14px; font-weight: 800; cursor: pointer; }
+    button:hover { background: #115e59; }
+    .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 24px 0; }
+    .step { padding: 16px; min-height: 116px; }
+    .step strong { display: block; margin-bottom: 8px; }
+    .step.active { border-color: #0f766e; box-shadow: 0 0 0 3px rgba(15,118,110,.16); }
+    .output { white-space: pre-wrap; background: #0f172a; color: #dff8f3; border-radius: 8px; padding: 18px; min-height: 220px; overflow: auto; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .tag { background: #e0f2fe; color: #075985; border-radius: 999px; padding: 6px 10px; font-size: 13px; font-weight: 700; }
+    @media (max-width: 860px) { .top, .flow { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="top">
+      <div>
+        <h1>AI-Driven QA Automation MCP</h1>
+        <p>Interactive workflow simulator for the minor project. It shows how requirements, UI context, MCP tools, and human review connect before test cases or automation scripts are accepted.</p>
+        <div class="tags">
+          <span class="tag">MCP</span><span class="tag">Appium</span><span class="tag">QA Automation</span><span class="tag">Human Review</span>
+        </div>
+      </div>
+      <div class="panel controls">
+        <label>Target platform
+          <select id="platform">
+            <option>Android mobile app</option>
+            <option>iOS simulator</option>
+            <option>Web application</option>
+          </select>
+        </label>
+        <label>Test objective
+          <select id="objective">
+            <option>Generate regression test cases</option>
+            <option>Find requirement coverage gaps</option>
+            <option>Create automation script outline</option>
+          </select>
+        </label>
+        <label>Requirement sample
+          <textarea id="requirement">User should be able to log in, view project tasks, update status, and receive validation messages for invalid credentials.</textarea>
+        </label>
+        <button id="run">Run QA Workflow</button>
+      </div>
+    </section>
+
+    <section class="flow" aria-label="QA workflow">
+      <div class="step" data-step="0"><strong>1. Requirements</strong><span>Parse Jira/story text and acceptance criteria.</span></div>
+      <div class="step" data-step="1"><strong>2. UI Context</strong><span>Use MCP/Appium to inspect screens and controls.</span></div>
+      <div class="step" data-step="2"><strong>3. Test Design</strong><span>Generate positive, negative, edge, and regression cases.</span></div>
+      <div class="step" data-step="3"><strong>4. Automation</strong><span>Draft Playwright, Selenium, Cypress, or Appium scripts.</span></div>
+      <div class="step" data-step="4"><strong>5. Review</strong><span>QA engineer approves before publishing.</span></div>
+    </section>
+
+    <section class="panel">
+      <h2>Generated QA Plan</h2>
+      <div id="output" class="output">Select options and run the workflow.</div>
+    </section>
+  </main>
+
+  <script>
+    const steps = [...document.querySelectorAll('.step')];
+    const out = document.querySelector('#output');
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+    function plan(platform, objective, requirement) {
+      const base = [
+        `Platform: ${platform}`,
+        `Objective: ${objective}`,
+        '',
+        'Requirement summary:',
+        `- ${requirement.trim()}`,
+        '',
+        'Suggested test cases:',
+        '- Valid login opens the task dashboard.',
+        '- Invalid credentials show a clear validation message.',
+        '- Task status update persists after refresh/reopen.',
+        '- Required fields reject empty or malformed input.',
+        '- Permission check prevents unauthorized task changes.',
+        '',
+        'MCP/Appium tool flow:',
+        '1. mobile_list_available_devices',
+        '2. mobile_use_device',
+        '3. mobile_list_apps / mobile_launch_app',
+        '4. mobile_get_screen_info',
+        '5. mobile_click / mobile_type / mobile_screenshot',
+        '',
+        'Human review gate:',
+        '- Confirm expected results and selectors.',
+        '- Remove duplicate cases.',
+        '- Approve before committing to Jira, AIO, or an automation repo.'
+      ];
+      return base.join('\n');
+    }
+
+    document.querySelector('#run').addEventListener('click', async () => {
+      out.textContent = 'Running MCP QA workflow...';
+      for (const step of steps) step.classList.remove('active');
+      for (const step of steps) {
+        step.classList.add('active');
+        await sleep(220);
+      }
+      out.textContent = plan(
+        document.querySelector('#platform').value,
+        document.querySelector('#objective').value,
+        document.querySelector('#requirement').value
+      );
+    });
+  </script>
+</body>
+</html>

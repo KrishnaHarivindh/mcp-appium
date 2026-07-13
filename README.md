@@ -7,6 +7,10 @@
 
 Model Context Protocol server for AI-assisted QA automation, mobile app exploration, and test-case generation workflows.
 
+## Interactive Demo
+
+Open `demo.html` in a browser to try the workflow simulator. It demonstrates how requirements, UI context, MCP/Appium tools, generated test cases, automation planning, and human QA review fit together.
+
 ## Overview
 
 This repository is the MCP server foundation for my minor project, **AI-Driven Test Case Generation, Execution & Automation using MCP**.
